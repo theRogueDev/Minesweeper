@@ -1,19 +1,15 @@
-let nextTodoId = 0
-export const addTodo = text => ({
-	type: 'ADD_TODO',
-	id: nextTodoId++,
-	text
-})
-export const setVisibilityFilter = filter => ({
-	type: 'SET_VISIBILITY_FILTER',
-	filter
-})
-export const toggleTodo = id => ({
-	type: 'TOGGLE_TODO',
-	id
-})
-export const VisibilityFilters = {
-	SHOW_ALL: 'SHOW_ALL',
-	SHOW_COMPLETED: 'SHOW_COMPLETED',
-	SHOW_ACTIVE: 'SHOW_ACTIVE'
+export const ActionTypes = {
+	INIT_GAME: 'INIT_GAME',
+	USER_CLICK: 'USER_CLICK'
 }
+
+export const userClick = (button, x, y) => ({
+	type: 'USER_CLICK',
+	button: button,
+	x: x,
+	y: y
+})
+
+export const initGame = (boardSize) => ({
+	type: 'INIT_GAME'
+})
