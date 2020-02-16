@@ -1,5 +1,6 @@
 {
   "name": "minesweeper",
+  "homepage": "http://theRogueDev.github.io/Minesweeper",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

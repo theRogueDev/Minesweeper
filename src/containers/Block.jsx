@@ -4,7 +4,9 @@ import { connect } from 'react-redux'
 import { userClick } from "../actions";
 
 const mapStateToProps = (state) => {
-	return {}
+	return {
+		board: state.board
+	}
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -19,7 +21,10 @@ class Block extends React.Component {
 
 	constructor(props) {
 		super(props);
-		
+
+		this.state = {
+			block: this.props.board[this.props.x][this.props.y]
+		}
 		this.handleClick = this.handleClick.bind(this);
 	}
 
@@ -29,9 +34,15 @@ class Block extends React.Component {
 	}
 
 	render() {
+		let block = this.props.board[this.props.x][this.props.y];
+		let x;
+		if (block.flag) x = (<div style={{ width: '100%', height: '100%', backgroundImage: 'url(flag.png)' }}></div>)
+		else if (block.revealed) x = (<p>{block.count}</p>)
+		else if (block.mine) x = (<div style={{ width: '100%', height: '100%', backgroundImage: 'url(mine.png)' }}></div>)
+		else x = ' - ';
 		return (
-			<td onContextMenu={this.handleClick} onClick={this.handleClick}>
-				{this.props.mine}
+			<td style={{ backgroundImage: 'flag.png' }} onContextMenu={this.handleClick} onClick={this.handleClick}>
+				{x}
 			</td>
 		);
 	}

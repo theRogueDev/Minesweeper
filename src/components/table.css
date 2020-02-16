@@ -1,5 +1,11 @@
 #gameTable td {
 	height: 50px;
 	width: 50px;
-	border: 1px solid magenta;
+	border: 5px solid magenta;
+}
+
+#gameTable td div {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
 }
