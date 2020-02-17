@@ -7,7 +7,7 @@ import Block from '../containers/Block';
 
 const mapStateToProps = (state) => {
 	return {
-		root: state
+		root: state.board
 	}
 }
 

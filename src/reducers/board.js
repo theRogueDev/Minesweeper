@@ -29,7 +29,10 @@ let defaultState = () => {
 
 		board[x][y].mine = true;
 	}
-	return board;
+	return {
+		board: board,
+		win: false
+	};
 }
 
 const floodFillMod = (sourceBoard, source) => {
@@ -72,27 +75,44 @@ const floodFillMod = (sourceBoard, source) => {
 	board[source.x][source.y].count = count;
 	board[source.x][source.y].revealed = true;
 	// If count is 0, flood all adjacent cells
-	// if (count === 0) {
-	// 	// Up
-	// 	if (up && !board[source.x][source.y + 1].revealed) board = floodFillMod(board, { x: source.x, y: source.y + 1 });
-	// 	// Up and Right
-	// 	if (upright && !board[source.x + 1][source.y + 1].revealed) board = floodFillMod(board, { x: source.x + 1, y: source.y + 1 });
-	// 	// Right
-	// 	if (right && !board[source.x + 1][source.y].revealed) board = floodFillMod(board, { x: source.x + 1, y: source.y });
-	// 	// Down and Right
-	// 	if (downright && !board[source.x + 1][source.y - 1].revealed) board = floodFillMod(board, { x: source.x + 1, y: source.y - 1 });
-	// 	// Down
-	// 	if (down && !board[source.x][source.y - 1].revealed) board = floodFillMod(board, { x: source.x, y: source.y - 1 });
-	// 	// Down and Left
-	// 	if (downleft && !board[source.x - 1][source.y - 1].revealed) board = floodFillMod(board, { x: source.x - 1, y: source.y - 1 });
-	// 	// Left
-	// 	if (left && !board[source.x - 1][source.y].revealed) board = floodFillMod(board, { x: source.x - 1, y: source.y });
-	// 	// Left and Up
-	// 	if (upleft && !board[source.x - 1][source.y + 1].revealed) board = floodFillMod(board, { x: source.x - 1, y: source.y + 1 });
-	// } else {
-	// 	return board;
-	// }
+	if (count === 0) {
+		// Up
+		if (up && !board[source.x][source.y + 1].revealed) board = floodFillMod(board, { x: source.x, y: source.y + 1 });
+		// Up and Right
+		if (upright && !board[source.x + 1][source.y + 1].revealed) board = floodFillMod(board, { x: source.x + 1, y: source.y + 1 });
+		// Right
+		if (right && !board[source.x + 1][source.y].revealed) board = floodFillMod(board, { x: source.x + 1, y: source.y });
+		// Down and Right
+		if (downright && !board[source.x + 1][source.y - 1].revealed) board = floodFillMod(board, { x: source.x + 1, y: source.y - 1 });
+		// Down
+		if (down && !board[source.x][source.y - 1].revealed) board = floodFillMod(board, { x: source.x, y: source.y - 1 });
+		// Down and Left
+		if (downleft && !board[source.x - 1][source.y - 1].revealed) board = floodFillMod(board, { x: source.x - 1, y: source.y - 1 });
+		// Left
+		if (left && !board[source.x - 1][source.y].revealed) board = floodFillMod(board, { x: source.x - 1, y: source.y });
+		// Left and Up
+		if (upleft && !board[source.x - 1][source.y + 1].revealed) board = floodFillMod(board, { x: source.x - 1, y: source.y + 1 });
+	} else {
+		return board;
+	}
 	return board;
+}
+
+const checkGame = (board) => {
+	let win = true;
+	for (let i = 0; i < 10; i++) {
+		for (let j = 0; j < 10; j++) {
+			if (board[i][j].mine) {
+				// Check if it's a mine, if it's  a mine, then check if it's flagged,
+				// If it's flagged, continue, if it's not, win = false;
+				if (!board[i][j].flag) {
+					win = false;
+				}
+			}
+		}
+	}
+
+	return win;
 }
 
 export default (state = defaultState(), action) => {
@@ -100,7 +120,7 @@ export default (state = defaultState(), action) => {
 		case ActionTypes.INIT_GAME:
 			return defaultState();
 		case ActionTypes.USER_CLICK:
-			let copy = getCopy(state);
+			let copy = getCopy(state.board);
 			let button = action.button;
 			let x = action.x, y = action.y;
 			if (button === 0) {
@@ -110,10 +130,16 @@ export default (state = defaultState(), action) => {
 					copy = floodFillMod(copy, { x: x, y: y });
 				}
 			} else if (button === 2) {
-				copy[x][y].flag = true;
+				copy[x][y].flag = !copy[x][y].flag;
 			}
-			return copy;
+			// Check if game finished
+			let win = checkGame(copy);
+			return {
+				win: win,
+				board: copy
+			};
 		default:
 			return state;
 	}
 }
+

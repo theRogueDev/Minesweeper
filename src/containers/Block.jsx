@@ -5,7 +5,8 @@ import { userClick } from "../actions";
 
 const mapStateToProps = (state) => {
 	return {
-		board: state.board
+		board: state.board.board,
+		win: state.board.win
 	}
 };
 
@@ -36,10 +37,13 @@ class Block extends React.Component {
 	render() {
 		let block = this.props.board[this.props.x][this.props.y];
 		let x;
+		// Render sequence
 		if (block.flag) x = (<div style={{ width: '100%', height: '100%', backgroundImage: 'url(flag.png)' }}></div>)
 		else if (block.revealed) x = (<p>{block.count}</p>)
-		else if (block.mine) x = (<div style={{ width: '100%', height: '100%', backgroundImage: 'url(mine.png)' }}></div>)
-		else x = ' - ';
+		else x = '';
+		
+		if (this.props.win && block.mine) x = (<div style={{ width: '100%', height: '100%', backgroundImage: 'url(mine.png)' }}></div>)
+		
 		return (
 			<td style={{ backgroundImage: 'flag.png' }} onContextMenu={this.handleClick} onClick={this.handleClick}>
 				{x}
