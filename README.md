@@ -2,7 +2,9 @@
 
 A very poorly ported version of the beloved minesweeper game written in React/Redux. The game behaviour isn't exactly the same as the original. For example, the block revealing mechanism is a modified version of the flood fill algorithm.
 
-## Algorithm for revealing blocks
+## Revealing Blocks
+
+I used a modified version of the flood fill algorithm for filling the negative space. It goes as follows:
 
 1. Start from a source cell
 2. Count the number of mines in all adjacent cells
