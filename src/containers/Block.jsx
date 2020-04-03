@@ -38,14 +38,14 @@ class Block extends React.Component {
 		let block = this.props.board[this.props.x][this.props.y];
 		let x;
 		// Render sequence
-		if (block.flag) x = (<div className='flagged'></div>)
+		if (block.flag) x = (<div style={{ height: '100%', width: '100%', backgroundImage: "url(flag.png)" }}></div>)
 		else if (block.revealed) x = (<div className='revealed'><p>{block.count}</p></div>)
 		else x = <div className='unrevealed'></div>;
 
 		if (this.props.win && block.mine) x = (<div style={{ width: '100%', height: '100%', backgroundImage: 'url(mine.png)' }}></div>)
 
 		return (
-			<td style={{ backgroundImage: 'flag.png' }} onContextMenu={this.handleClick} onClick={this.handleClick}>
+			<td onContextMenu={this.handleClick} onClick={this.handleClick}>
 				{x}
 			</td>
 		);
