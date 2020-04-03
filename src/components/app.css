@@ -1,0 +1,27 @@
+#gameTable td {
+	height: 50px;
+	width: 50px;
+	border: 1px solid magenta;
+}
+
+#gameTable td div {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+.unrevealed {
+	height: 100%;
+	width: 100%;
+	background-color: whitesmoke;
+}
+
+.unrevealed:hover {
+	background-color: salmon;
+}
+
+.flagged {
+	height: 100%;
+	width: 100%;
+	background-image: url('/flag.png');
+}
